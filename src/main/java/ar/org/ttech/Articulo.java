@@ -24,8 +24,6 @@ public class Articulo {
     }
 
 
-
-
     public String getNombre() {
         return nombre;
     }
@@ -52,7 +50,11 @@ public class Articulo {
 
 
     public void mostrar() {
-        System.out.println("ID: " + id + " Nombre: " + nombre + " Descripcion: " + descripcion + " Precio: " + precio);
+        System.out.println("ID: " + id + " \tNombre: " + nombre + " \tDescripcion: " + descripcion + " \tPrecio: " + precio);
+    }
+
+    public void mostrar(int id) {
+        System.out.println("ID: \t\t\t" + id + " \nNombre: \t\t" + nombre + " \nDescripcion: \t" + descripcion + " \nPrecio: \t\t" + precio);
     }
 
 
