@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    static ArrayList<Articulo> lista = new ArrayList<>();
+    static ArrayList<Articulo> listaArticulos = new ArrayList<>();
     static Scanner sc = new Scanner(System.in);
 
 
@@ -35,34 +35,47 @@ public class Main {
 
 
     public static void crearArticulo() {
-        System.out.print("ID: ");
-        int id = sc.nextInt(); sc.nextLine();
-        System.out.print("Nombre: ");
-        System.out.println("Descripcion: ");
-        String descripcion = sc.nextLine();
-        String nombre = sc.nextLine();
-        System.out.print("Precio: ");
-        double precio = sc.nextDouble();
 
+        System.out.print("Ingrese ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
 
-        Articulo nuevoArticulo = new Articulo(id, nombre, descripcion, precio);
-        try {
-            lista.add(nuevoArticulo);
+        if (existeArticulo(id)) {
+            System.out.println("*******************************");
+            System.out.println("****** El ID ya existe! *******");
+            System.out.println("*******************************");
+            return;
         }
-        catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        if (id < 0) {
+            System.out.println("El ID no puede ser negativo!.");
             return;
         }
 
+        System.out.print("Ingrese Nombre: ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Ingrese Descripcion: ");
+        String descripcion = sc.nextLine();
+
+        System.out.print("Ingrese Precio: ");
+        double precio = sc.nextDouble();
+        System.out.println();
+        Articulo nuevoArticulo = new Articulo(id, nombre, descripcion, precio);
+        listaArticulos.add(nuevoArticulo);
+        System.out.println("*******************************");
         System.out.println("Artículo agregado Correctamente");
+        nuevoArticulo.mostrar(id);
+        System.out.println("*******************************");
+
     }
 
+
     public static void listarArticulos() {
-        if (lista.isEmpty()) {
+        if (listaArticulos.isEmpty()) {
             System.out.println("No hay artículos cargados.");
         } else {
-            for (Articulo a : lista) {
-                a.mostrar();   // Llamada polimórfica al método mostrar()
+            for (Articulo a : listaArticulos) {
+                a.mostrar();
             }
         }
     }
@@ -71,7 +84,7 @@ public class Main {
     public static void modificarArticulo() {
         System.out.print("ID del artículo a modificar: ");
         int id = sc.nextInt();
-        for (Articulo articulo : lista) {
+        for (Articulo articulo : listaArticulos) {
             if (articulo.getId() == id) {
                 sc.nextLine();
                 System.out.print("Nuevo nombre: ");
@@ -88,11 +101,18 @@ public class Main {
         System.out.println("Artículo no encontrado.");
     }
 
-        public static void eliminarArticulo() {
+    public static void eliminarArticulo() {
+
         System.out.print("ID del artículo a eliminar: ");
         int id = sc.nextInt();
-            lista.removeIf(a -> a.getId() == id);
+        listaArticulos.removeIf(a -> a.getId() == id);
         System.out.println("Artículo eliminado si existía.");
     }
+
+    public static boolean existeArticulo(int id) {
+        return listaArticulos.stream().anyMatch(a -> a.getId() == id);
+
+    }
+
 
 }
