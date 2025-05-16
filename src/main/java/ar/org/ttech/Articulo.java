@@ -20,7 +20,8 @@ public class Articulo {
     }
 
     private void setId(int id) {
-        this.id = id;
+        //this.id = id;
+
     }
 
 
