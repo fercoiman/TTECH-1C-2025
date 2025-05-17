@@ -36,20 +36,20 @@ public class Main {
 
     public static void crearArticulo() {
 
-        System.out.print("Ingrese ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        if (existeArticulo(id)) {
-            System.out.println("*******************************");
-            System.out.println("****** El ID ya existe! *******");
-            System.out.println("*******************************");
-            return;
-        }
-        if (id < 0) {
-            System.out.println("El ID no puede ser negativo!.");
-            return;
-        }
+//        System.out.print("Ingrese ID: ");
+//        int id = sc.nextInt();
+//        sc.nextLine();
+//
+//        if (existeArticulo(id)) {
+//            System.out.println("*******************************");
+//            System.out.println("****** El ID ya existe! *******");
+//            System.out.println("*******************************");
+//            return;
+//        }
+//        if (id < 0) {
+//            System.out.println("El ID no puede ser negativo!.");
+//            return;
+//        }
 
         System.out.print("Ingrese Nombre: ");
         String nombre = sc.nextLine();
@@ -60,7 +60,15 @@ public class Main {
         System.out.print("Ingrese Precio: ");
         double precio = sc.nextDouble();
         System.out.println();
+
+        int id = Main.listaArticulos.size()+1;
+        while (existeArticulo(id)){
+            id++;
+        }
+        System.out.println("codigo de articulo valido: " + id + "\n");
+
         Articulo nuevoArticulo = new Articulo(id, nombre, descripcion, precio);
+
         listaArticulos.add(nuevoArticulo);
         System.out.println("*******************************");
         System.out.println("Artículo agregado Correctamente");
@@ -86,14 +94,12 @@ public class Main {
         int id = sc.nextInt();
         for (Articulo articulo : listaArticulos) {
             if (articulo.getId() == id) {
-                sc.nextLine();
                 System.out.print("Nuevo nombre: ");
                 articulo.setNombre(sc.nextLine());
                 System.out.println("Nueva Descripcion: ");
                 articulo.setDescripcion(sc.nextLine());
                 System.out.print("Nuevo precio: ");
                 articulo.setPrecio(sc.nextDouble());
-                // Usar setter para cambiar precio
                 System.out.println("Artículo actualizado.");
                 return;
             }

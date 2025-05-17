@@ -9,7 +9,7 @@ public class Articulo {
     private double precio;
 
     public Articulo(int id, String nombre, String descripcion, double precio) {
-        this.id = id;
+        this.id = createNewId();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -20,16 +20,21 @@ public class Articulo {
     }
 
     private void setId(int id) {
-        //this.id = id;
-
+        this.id = id;
     }
 
+
+    private int createNewId() {
+        int newId = Main.listaArticulos.size();
+        return Main.listaArticulos.size() + 1;
+    }
 
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
+        this.nombre = nombre;
 
     }
 
@@ -38,7 +43,7 @@ public class Articulo {
     }
 
     public void setDescripcion(String descripcion) {
-
+        this.descripcion = descripcion;
     }
 
     public double getPrecio() {
@@ -46,7 +51,7 @@ public class Articulo {
     }
 
     public void setPrecio(double precio) {
-
+        this.precio = precio;
     }
 
 
