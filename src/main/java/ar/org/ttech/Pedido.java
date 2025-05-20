@@ -6,80 +6,61 @@ import java.util.List;
 import java.util.Objects;
 
 public class Pedido {
-    private String idPedido;
-    private String cliente;
-    private LocalDateTime fecha;
-    private List<LineaPedido> lineas;
+    private int idPedido;
+    private int idCliente;
+    private LocalDateTime fechaPedido;
+    private List<Articulo> articulos;
     private EstadoPedido estado;
 
-    public Pedido(String idPedido, String cliente) {
-        this.idPedido = Objects.requireNonNull(idPedido);
-        this.cliente = Objects.requireNonNull(cliente);
-        this.fecha = LocalDateTime.now();
-        this.lineas = new ArrayList<>();
+    public Pedido(int idPedido, int idCliente) {
+        this.idPedido = idPedido;
+        this.idCliente = idCliente;
+        this.fechaPedido = LocalDateTime.now();
+        this.articulos = new ArrayList<>();
         this.estado = EstadoPedido.PENDIENTE;
     }
 
     public void agregarArticulo(Articulo articulo, int cantidad) {
-        Objects.requireNonNull(articulo, "El artículo no puede ser nulo");
-
-        // Buscar si ya existe el artículo en el pedido
-        for (LineaPedido linea : lineas) {
-            if (linea.getArticulo().equals(articulo)) {
-                linea.setCantidad(linea.getCantidad() + cantidad);
-                return;
-            }
-        }
-
-        // Si no existe, agregar nueva línea
-        lineas.add(new LineaPedido(articulo, cantidad));
-    }
-
-    public void eliminarArticulo(String idArticulo) {
-        lineas.removeIf(linea -> linea.getArticulo().getId().equals(idArticulo));
-    }
-
-    public double calcularTotal() {
-        return lineas.stream()
-                .mapToDouble(LineaPedido::calcularSubtotal)
-                .sum();
+        //hacer
     }
 
     public void cambiarEstado(EstadoPedido nuevoEstado) {
-        this.estado = Objects.requireNonNull(nuevoEstado);
+        this.estado = nuevoEstado;
     }
 
-    // Getters
-    public String getIdPedido() {
+    public int getIdPedido() {
         return idPedido;
     }
-
-    public String getCliente() {
-        return cliente;
+    public int getIdCliente() {
+        return idCliente;
+    }
+    public LocalDateTime getFechaPedido() {
+        return fechaPedido;
+    }
+    public List<Articulo> getArticulos() {
+        return articulos;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
+    public void agregarArticulo(Articulo articulo) {
+        this.articulos.add(articulo);
     }
 
-    public List<LineaPedido> getLineas() {
-        return new ArrayList<>(lineas);
-    } // Defensive copy
+    public void eliminarArticulo(int idArticulo) {
+        this.articulos.removeIf(a ->a.getId() == idArticulo);
+    }
+
+    public double calcularTotal() {
+        double total = 0;
+        for (Articulo articulo : articulos) {
+            total += articulo.getPrecio();
+        }
+        return total;
+    }
 
     public EstadoPedido getEstado() {
         return estado;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Pedido #%s - Cliente: %s\n", idPedido, cliente));
-        sb.append(String.format("Fecha: %s - Estado: %s\n", fecha, estado));
-        sb.append("Artículos:\n");
-        lineas.forEach(linea -> sb.append("  ").append(linea).append("\n"));
-        sb.append(String.format("TOTAL: $%.2f", calcularTotal()));
-        return sb.toString();
-    }
 }
 
 enum EstadoPedido {
