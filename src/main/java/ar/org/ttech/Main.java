@@ -56,16 +56,27 @@ public class Main {
 
         System.out.print("Ingrese Descripcion: ");
         String descripcion = sc.nextLine();
+        boolean preciovalido = false;
+        double precio = 0;
 
-        System.out.print("Ingrese Precio: ");
-        double precio = sc.nextDouble();
-        System.out.println();
+        while (!preciovalido) {
+            System.out.print("Ingrese Precio: ");
 
-        int id = Main.listaArticulos.size()+1;
-        while (existeArticulo(id)){
-            id++;
+            if (sc.hasNextDouble()) {
+                precio = sc.nextDouble();
+                sc.nextLine();
+                preciovalido = true;
+            } else {
+                System.out.println("Se debe ingresar un numero!");
+                sc.nextLine();
+            }
         }
-        System.out.println("codigo de articulo valido: " + id + "\n");
+        int id = Main.listaArticulos.size() + 1;
+        for (Articulo articulo : listaArticulos) {
+            if (articulo.getId() == id) {
+                id = id + 1;
+            }
+        }
 
         Articulo nuevoArticulo = new Articulo(id, nombre, descripcion, precio);
 
@@ -96,7 +107,7 @@ public class Main {
             if (articulo.getId() == id) {
                 System.out.print("Nuevo nombre: ");
                 articulo.setNombre(sc.nextLine());
-                System.out.println("Nueva Descripcion: ");
+                System.out.print("Nueva Descripcion: ");
                 articulo.setDescripcion(sc.nextLine());
                 System.out.print("Nuevo precio: ");
                 articulo.setPrecio(sc.nextDouble());
@@ -111,14 +122,13 @@ public class Main {
 
         System.out.print("ID del artículo a eliminar: ");
         int id = sc.nextInt();
+
         listaArticulos.removeIf(a -> a.getId() == id);
         System.out.println("Artículo eliminado si existía.");
     }
 
     public static boolean existeArticulo(int id) {
         return listaArticulos.stream().anyMatch(a -> a.getId() == id);
-
     }
-
 
 }

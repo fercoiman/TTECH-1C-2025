@@ -12,7 +12,14 @@ public class Articulo {
         this.id = createNewId();
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.precio = precio;
+        this.precio = validarPrecio(precio);
+    }
+
+    private double validarPrecio(double precio) {
+        if (precio < 0) {
+            throw new IllegalArgumentException("El precio no puede ser negativo");
+        }
+        return precio;
     }
 
     public int getId() {
